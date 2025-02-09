@@ -2,14 +2,27 @@ import 'dart:io';
 
 // Eine Klasse für Restaurants erstellen
 class Restaurant {
-  Restaurant(this.ResName, this.foodType);
-
+  Restaurant(
+    this.ResName,
+    this.foodType,
+    this.RestaurantStreetName,
+    this.RestaurantStreetNumber,
+    this.RestaurantArea,
+    this.RestaurantPlz,
+    this.RestaurantVerified,
+  );
+  // Variablen zum Verifizierungsprozess / weiteres filtern nach Ort etc zukünftig
   String ResName;
   String foodType;
+  String RestaurantStreetName;
+  int RestaurantStreetNumber;
+  String RestaurantArea;
+  int RestaurantPlz;
+  bool RestaurantVerified;
 }
 
 // Funktion zum Filtern von Resataurants nach Type
-// Erstelle eine Liste vom Typ Restaurant
+// Erstelle Funktion mit Rückgabewert Liste<Restaurants>
 // Ich erstelle eine Liste von Restaurant-Objekten, die ich filtern möchte
 // typ beinhaltet den String bzw die Essens-Art, wonach gefiltert werden soll
 // where durchsucht die Liste restaurants und prüft
@@ -24,14 +37,61 @@ List<Restaurant> filterRestaurants(List<Restaurant> restaurants, String type) {
       .toList();
 }
 
+// Funktion zum Filtern von verifiziert Restaurants mit Rückgabetyp List<Restaurant>
+// Erstelle eine Liste vom Typ Restaurant die ich filtern will
+// Ich filtere boolisch nach true ( verifiziert )
+// Lambda Funktion wird verwendet
+// r steht für jedes einzelne Restaurant-Objekt in der Liste
+// Mit .toList() wird dieses Iterable in eine Liste umgewandelt,
+// weil die Funktion List<Restaurant> zurückgeben soll.
+
+List<Restaurant> verifiedRestaurants(
+  List<Restaurant> restaurants,
+  bool status,
+) {
+  return restaurants.where((r) => r.RestaurantVerified == true).toList();
+}
+
 void main() {
   // Beispiel-Daten: Liste mit Restaurants & Type
   List<Restaurant> restaurants = [
-    Restaurant("Pizza Palace", "Italienisch"),
-    Restaurant("Sushi World", "Japanisch"),
-    Restaurant("Burger King", "Amerikanisch"),
-    Restaurant("Taco Heaven", "Mexikanisch"),
-    Restaurant("Pasta Lovers", "Italienisch"),
+    Restaurant(
+      "Pizza Palace",
+      "Italienisch",
+      "Appstr",
+      1,
+      "Berlin",
+      11111,
+      false,
+    ),
+    Restaurant("Sushi World", "Japanisch", "Appstr", 1, "Berlin", 11111, true),
+    Restaurant(
+      "Burger King",
+      "Amerikanisch",
+      "Appstr",
+      1,
+      "Berlin",
+      11111,
+      true,
+    ),
+    Restaurant(
+      "Taco Heaven",
+      "Mexikanisch",
+      "Appstr",
+      1,
+      "Berlin",
+      11111,
+      false,
+    ),
+    Restaurant(
+      "Pasta Lovers",
+      "Italienisch",
+      "Appstr",
+      1,
+      "Berlin",
+      11111,
+      false,
+    ),
   ];
 
   // Restaurants nach "Italienisch" filtern
@@ -40,10 +100,17 @@ void main() {
     "Italienisch",
   );
 
+  List<Restaurant> verifiedTrue = verifiedRestaurants(restaurants, true);
+
   // Gefilterte Restaurants ausgeben
   // for in Schleife durchläuft jedes Element in der Liste italienRestaurants
   print("Gefilterte Restaurants:");
   for (var r in italianRestaurants) {
+    print(r.ResName);
+  }
+
+  print("Verifizierte Restaurants:");
+  for (var r in verifiedTrue) {
     print(r.ResName);
   }
 
